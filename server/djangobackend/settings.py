@@ -17,6 +17,16 @@ from django.contrib.messages import constants as messages
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'server/djangoapp/templates')
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'ao5z(o(z@cvzodm99d32jkxa5e8a1!q_4sqss5-a%n6tg$#h$+'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+APPEND_SLASH = True
+
+ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'bsmith.mybluemix.net']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -59,6 +69,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'djangobackend.wsgi.application'
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
@@ -108,7 +128,7 @@ MESSAGE_TAGS = {
 }
 
 # Local Settings
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+# try:
+#     from .local_settings import *
+# except ImportError:
+#     pass
