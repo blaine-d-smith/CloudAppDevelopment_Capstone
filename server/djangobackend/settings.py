@@ -25,7 +25,7 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ["localhost", '127.0.0.1', 'bsmith.mybluemix.net']
+ALLOWED_HOSTS = ['bsmith.us-south.cf.appdomain.cloud', 'localhost', '127.0.0.1',]
 
 # Application definition
 
@@ -115,10 +115,12 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_DIR = os.path.join(BASE_DIR, 'djangobackend/static')
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media')
 MEDIA_URL = '/media/'
 

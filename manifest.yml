@@ -1,11 +1,11 @@
   applications:
   - name: djangoapp
     routes:
-      - route: bsmith.mybluemix.net
-    memory: 128M
+      - route: bsmith.us-south.cf.appdomain.cloud
+    memory: 256M
     buildpack: python_buildpack
   - name: djangoapp-nginx
     routes:
-      - route: bsmith.mybluemix.net/static
-    memory: 128M
+      - route: bsmith.us-south.cf.appdomain.cloud/static
+    memory: 256M
     buildpack: staticfile_buildpack
