@@ -2,12 +2,10 @@
   - name: djangoapp
     routes:
       - route: bsmith.mybluemix.net
-#      - route: $HOST.$DOMAIN
     memory: 128M
     buildpack: python_buildpack
   - name: djangoapp-nginx
     routes:
       - route: bsmith.mybluemix.net/static
-#      - route: $HOST.$DOMAIN/static
     memory: 128M
     buildpack: staticfile_buildpack
