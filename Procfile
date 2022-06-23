@@ -1,1 +1,1 @@
-web: gunicorn --chdir ./server djangobackend.wsgi
+web: gunicorn --chdir ./server backend.wsgi

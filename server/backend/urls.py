@@ -1,4 +1,4 @@
-"""djangobackend URL Configuration
+"""backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('', include('djangoapp.urls')),
+    path('', include('base.urls')),
     path('admin/', admin.site.urls),
-    path('djangoapp/', include('djangoapp.urls')),
+    # path('base/', include('base.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

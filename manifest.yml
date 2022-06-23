@@ -1,10 +1,10 @@
   applications:
-  - name: djangoapp
+  - name: base
     routes:
       - route: bsmith.us-south.cf.appdomain.cloud
     memory: 256M
     buildpack: python_buildpack
-  - name: djangoapp-nginx
+  - name: base-nginx
     routes:
       - route: bsmith.us-south.cf.appdomain.cloud/static
     memory: 256M

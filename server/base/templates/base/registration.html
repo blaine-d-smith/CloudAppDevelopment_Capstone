@@ -11,7 +11,7 @@
               <h1>Signup</h1>
             </div>
             <div class="card-body">
-                <form action="{% url 'djangoapp:registration' %}" method="POST">
+                <form action="{% url 'base:registration' %}" method="POST">
                     {% csrf_token %}
                   <div class="form-group">
                   <label for="first_name">First Name</label>

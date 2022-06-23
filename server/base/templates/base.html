@@ -34,10 +34,10 @@
             <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
             {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="#">{{ user.username }}</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'djangoapp:logout' %}">Logout</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'base:logout' %}">Logout</a></li>
             {% else %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'djangoapp:registration' %}">Signup</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'djangoapp:login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'base:registration' %}">Signup</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'base:login' %}">Login</a></li>
             {% endif %}
 
         </ul>
