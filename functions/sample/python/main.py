@@ -11,6 +11,12 @@ from cloudant.client import Cloudant
 from cloudant.error import CloudantException
 import requests
 
+cloud_cred = {
+    "COUCH_URL": "https://05c35462-27e4-4eb3-bafa-2d78d4ee463d-bluemix.cloudantnosqldb.appdomain.cloud",
+    "IAM_API_KEY": "rmaabsX7VQZyv9zf2hhxCICk6bnPeiFpAJ-O8kQEu_HO",
+    "COUCH_USERNAME": "05c35462-27e4-4eb3-bafa-2d78d4ee463d-bluemix"
+}
+
 
 def main(dict):
     databaseName = "dealerships"
@@ -30,3 +36,6 @@ def main(dict):
         return {"error": err}
 
     return {"dbs": client.all_dbs()}
+
+
+main(cloud_cred)
