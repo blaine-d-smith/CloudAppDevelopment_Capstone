@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dealership{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8"><h1>Dealership Info</h1></div>
+    <div class="col-lg-3">
+        {% if user.is_authenticated %}
+        <a class="btn btn-dark btn-lg" href="#">Add Review</a>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    {% for dealership in dealership_details %}
+        <p>{{dealership.id}}</p>
+       <p> {{dealership.full_name}}</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

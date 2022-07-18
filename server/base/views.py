@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
-# from .models import related models
-# from .restapis import related methods
+from django.forms import ModelForm, Textarea
+from .models import DealerReview, CarDealer, CarModel
+from .restapis import get_dealers_from_cf, post_request, get_dealership_reviews_from_db, get_dealer_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -14,32 +15,26 @@ import json
 logger = logging.getLogger(__name__)
 
 
-# Create your views here.
-
-# Create an `about` view to render a static about page
 def about(request):
     """
     View for the About page.
     """
     context = {
-
     }
     if request.method == "GET":
         return render(request, 'base/about.html', context)
 
 
-# Create a `contact` view to return a static contact page
 def contact(request):
     """
     View for the Contact page.
     """
     context = {
-
     }
     if request.method == "GET":
         return render(request, 'base/contact.html', context)
 
-# Create a `login_request` view to handle sign in request
+
 def login_request(request):
     """
     Displays a login form for accounts.
@@ -52,7 +47,7 @@ def login_request(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Welcome')
-            # Directs user to dashboard if login is successful.
+            # Directs user to home page if login is successful.
             return redirect('base:index')
         else:
             messages.error(request, 'Username/Password do not match')
@@ -61,7 +56,7 @@ def login_request(request):
     else:
         return render(request, 'base/login.html')
 
-# Create a `logout_request` view to handle sign out request
+
 def logout_request(request):
     """
     View for logging out.
@@ -71,7 +66,7 @@ def logout_request(request):
     # Directs user to home page if logout is successful.
     return redirect('base:index')
 
-# Create a `registration_request` view to handle sign up request
+
 def registration_request(request):
     """
     Displays a form for new account registration.
@@ -113,22 +108,89 @@ def registration_request(request):
     else:
         return render(request, 'base/registration.html')
 
-# Update the `get_dealerships` view to render the index page with a list of dealerships
+
 def get_dealerships(request):
     """
     View for the Home page/index.
+    Renders a list of all dealerships.
     """
-    context = {
-    }
+    context = {}
     if request.method == "GET":
+        url = "https://8f6ed1e1.us-south.apigw.appdomain.cloud/api/dealership"
+        dealerships = get_dealers_from_cf(url)
+        context = {'dealership_list': dealerships}
         return render(request, 'base/index.html', context)
 
 
-# Create a `get_dealer_details` view to render the reviews of a dealer
-# def get_dealer_details(request, dealer_id):
-# ...
+def get_dealership_by_id(request, dealer_id):
+    """
+
+    """
+    if request.method == "GET":
+        dealership = get_dealer_from_cf(dealer_id)
+        context = {'dealership_details': dealership}
+
+        # return HttpResponse(dealership)
+        return render(request, 'base/dealership.html', context)
+
+
+def get_dealership_reviews(request, dealer_id):
+    if request.method == "GET":
+        reviews = get_dealership_reviews_from_db(dealer_id)
+        dealership_details = get_dealer_from_cf(dealer_id)
+
+        context = {
+            'reviews': reviews,
+            'dealership_details': dealership_details
+        }
+        # return HttpResponse(reviews)
+        return render(request, 'base/dealer_details.html', context)
+
 
 # Create a `add_review` view to submit a review
-# def add_review(request, dealer_id):
-# ...
+def add_review(request, dealer_id):
+    # check is user is authenticated
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        url = "https://8f6ed1e1.us-south.apigw.appdomain.cloud/api/review"
 
+        review = {}
+        json_payload = {'review': review}
+        results = post_request(url, json_payload, dealer_id=dealer_id)
+        print(results)
+        return HttpResponse(results)
+
+
+
+# def add_review(request, dealer_id):
+#     dealer = get_object_or_404(CarDealer, pk=dealer_id)
+#     if request.method == "GET":
+#         cars = CarModel.objects.get(DealerId=dealer_id)
+#         context = {'cars': cars}
+#         return render(request, 'base/add_review.html', context)
+#     else:
+#         if request.user.is_authenticated:
+#             user_id = request.user.id
+#         form = ReviewForm(request.POST)
+#         if form.is_valid():
+#             name = form.cleaned_data['name']
+#             dealership = form.cleaned_data['dealership']
+#             review = form.cleaned_data['review']
+#             purchase = form.cleaned_data['purchase']
+#             purchase_date = form.cleaned_data['purchase_date']
+#             car_make = form.cleaned_data['car_make']
+#             car_model = form.cleaned_data['car_model']
+#             car_year = form.cleaned_data['car_year']
+#
+#             review_doc = DealerReview()
+#             review_doc.name = name,
+#             review_doc.dealership = dealership
+#             review_doc.review = review
+#             review_doc.purchase = purchase
+#             review_doc.purchase_date = purchase_date
+#             review_doc.car_make = car_make
+#             review_doc.car_model = car_model
+#             review_doc.car_year = car_year
+#             review_doc.save()
+#
+#             return redirect("base:dealer_details", dealer_id=dealer_id)

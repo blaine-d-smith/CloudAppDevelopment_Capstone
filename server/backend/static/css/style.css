@@ -15,3 +15,13 @@ Style.css
     color: #0c0c0c !important;
     font-weight: 700 !important;
 }
+
+.container-fluid {
+    max-width: 1600px;
+}
+
+.review-image {
+    max-width: 75px;
+    height: auto;
+    padding: 0.25rem;
+}

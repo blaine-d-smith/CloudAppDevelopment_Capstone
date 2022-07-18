@@ -39,7 +39,43 @@ class CarModel(models.Model):
         return self.name
 
 
-# <HINT> Create a plain Python class `CarDealer` to hold dealer data
+class CarDealer:
+    """
+    Data object for car dealer.
+    """
+    def __init__(self, id, full_name, address, city, st, state, zip, lat, long, short_name):
+        self.id = id
+        self.full_name = full_name
+        self.address = address
+        self.city = city
+        self.st = st
+        self.state = state
+        self.zip = zip
+        self.lat = lat
+        self.long = long
+        self.short_name = short_name
+
+    def __str__(self):
+        return "Dealer name: " + self.full_name
 
 
-# <HINT> Create a plain Python class `DealerReview` to hold review data
+class DealerReview:
+    """
+    Data object for dealer review.
+    """
+    def __init__(self, id, dealership, name, review, purchase, purchase_date, car_make, car_model, car_year, sentiment):
+        self.id = id
+        self.dealership = dealership
+        self.name = name
+        self.review = review
+        self.purchase = purchase
+        self.purchase_date = purchase_date
+        self.car_make = car_make
+        self.car_model = car_model
+        self.car_year = car_year
+        self.sentiment = sentiment
+        
+
+    def __str__(self):
+        return "Review: " + self.review
+

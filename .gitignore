@@ -141,3 +141,5 @@ server/base/migrations/
 server/base/migrations/
 
 /server/static/
+/server/base/cloud-creds.json
+/server/base/cloud_creds.py
