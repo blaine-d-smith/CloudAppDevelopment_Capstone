@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.forms import ModelForm, Textarea
 from .models import DealerReview, CarDealer, CarModel
-from .restapis import get_dealers_from_cf, post_request, get_dealership_reviews_from_db, get_dealer_from_cf
+from .restapis import get_dealers_from_cf, post_request, get_dealership_reviews_from_db, get_dealer_from_cf, post_dealership_review_to_db
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -124,73 +124,83 @@ def get_dealerships(request):
 
 def get_dealership_by_id(request, dealer_id):
     """
-
+    View for dealership details.
     """
     if request.method == "GET":
         dealership = get_dealer_from_cf(dealer_id)
-        context = {'dealership_details': dealership}
+        context = {
+            'dealership_details': dealership,
+        }
 
-        # return HttpResponse(dealership)
         return render(request, 'base/dealership.html', context)
 
 
 def get_dealership_reviews(request, dealer_id):
+    """
+    View for dealership reviews.
+    Renders a list of all reviews for a dealership.
+    """
     if request.method == "GET":
         reviews = get_dealership_reviews_from_db(dealer_id)
-        dealership_details = get_dealer_from_cf(dealer_id)
+        dealership_query = get_dealer_from_cf(dealer_id)
+        dealership_details = {}
+        for dealership in dealership_query:
+            dealership_details["full_name"] = dealership.full_name
+            dealership_details["id"] = dealership.id
 
         context = {
             'reviews': reviews,
-            'dealership_details': dealership_details
+            'dealership_details': dealership_details,
         }
-        # return HttpResponse(reviews)
+
         return render(request, 'base/dealer_details.html', context)
 
 
-# Create a `add_review` view to submit a review
 def add_review(request, dealer_id):
-    # check is user is authenticated
-    if request.user.is_authenticated:
+    """
+    View for creating a new review.
+    """
+    if request.method == "GET":
+        cars = CarModel.objects.filter(dealerId=dealer_id)
+        dealership_details = {}
+        dealership_query = get_dealer_from_cf(dealer_id)
+        for dealership in dealership_query:
+            dealership_details["full_name"] = dealership.full_name
+            dealership_details["id"] = dealership.id
+
+        context = {
+            'cars': cars,
+            'dealership_details': dealership_details
+        }
+
+        return render(request, 'base/add_review.html', context)
+
+    # if request.user.is_authenticated:
+    if request.method == "POST" and request.user.is_authenticated:
         user_id = request.user.id
-        url = "https://8f6ed1e1.us-south.apigw.appdomain.cloud/api/review"
-
         review = {}
-        json_payload = {'review': review}
-        results = post_request(url, json_payload, dealer_id=dealer_id)
-        print(results)
-        return HttpResponse(results)
+        json_payload = {}
 
+        review["dealership"] = int(request.POST['dealership_id'])
+        review["name"] = request.POST['user_full_name']
+        review["review"] = request.POST['content']
+        purchase_check = request.POST['purchasecheck']
+        if purchase_check == 'on':
+            purchase = True
+        else:
+            purchase = False
+        review["purchase"] = purchase
+        review["purchase_date"] = request.POST['purchasedate']
+        car_id = request.POST['car']
+        car = CarModel.objects.get(id=car_id)
+        review["car_make"] = car.make.name
+        review["car_model"] = car.name
+        review["car_year"] = car.year.strftime("%Y")
+        review["sentiment"] = " "
 
+        json_payload["review"] = review
 
-# def add_review(request, dealer_id):
-#     dealer = get_object_or_404(CarDealer, pk=dealer_id)
-#     if request.method == "GET":
-#         cars = CarModel.objects.get(DealerId=dealer_id)
-#         context = {'cars': cars}
-#         return render(request, 'base/add_review.html', context)
-#     else:
-#         if request.user.is_authenticated:
-#             user_id = request.user.id
-#         form = ReviewForm(request.POST)
-#         if form.is_valid():
-#             name = form.cleaned_data['name']
-#             dealership = form.cleaned_data['dealership']
-#             review = form.cleaned_data['review']
-#             purchase = form.cleaned_data['purchase']
-#             purchase_date = form.cleaned_data['purchase_date']
-#             car_make = form.cleaned_data['car_make']
-#             car_model = form.cleaned_data['car_model']
-#             car_year = form.cleaned_data['car_year']
-#
-#             review_doc = DealerReview()
-#             review_doc.name = name,
-#             review_doc.dealership = dealership
-#             review_doc.review = review
-#             review_doc.purchase = purchase
-#             review_doc.purchase_date = purchase_date
-#             review_doc.car_make = car_make
-#             review_doc.car_model = car_model
-#             review_doc.car_year = car_year
-#             review_doc.save()
-#
-#             return redirect("base:dealer_details", dealer_id=dealer_id)
+        result = post_dealership_review_to_db(json_payload)
+        print(result)
+
+        return redirect('base:dealer_details', dealer_id=dealer_id)

@@ -63,8 +63,8 @@ class DealerReview:
     """
     Data object for dealer review.
     """
-    def __init__(self, id, dealership, name, review, purchase, purchase_date, car_make, car_model, car_year, sentiment):
-        self.id = id
+    def __init__(self, dealership, name, review, purchase, purchase_date, car_make, car_model, car_year, sentiment):
+        # self.id = id
         self.dealership = dealership
         self.name = name
         self.review = review
@@ -74,8 +74,6 @@ class DealerReview:
         self.car_model = car_model
         self.car_year = car_year
         self.sentiment = sentiment
-        
 
     def __str__(self):
         return "Review: " + self.review
-
