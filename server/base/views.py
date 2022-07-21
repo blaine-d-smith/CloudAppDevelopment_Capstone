@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render, redirect
-from django.forms import ModelForm, Textarea
+from django.shortcuts import render, redirect
 from .models import DealerReview, CarDealer, CarModel
-from .restapis import get_dealers_from_cf, post_request, get_dealership_reviews_from_db, get_dealer_from_cf, post_dealership_review_to_db
+from .restapis import get_dealers_from_cf, post_request, get_dealership_reviews_from_db,\
+    get_dealer_from_cf, post_dealership_review_to_db, get_dealer_by_state_from_cf
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from datetime import datetime
@@ -124,7 +124,7 @@ def get_dealerships(request):
 
 def get_dealership_by_id(request, dealer_id):
     """
-    View for dealership details.
+    View for dealership details using id.
     """
     if request.method == "GET":
         dealership = get_dealer_from_cf(dealer_id)
@@ -133,6 +133,16 @@ def get_dealership_by_id(request, dealer_id):
         }
 
         return render(request, 'base/dealership.html', context)
+
+
+def get_dealership_by_st(request, dealer_st):
+    """
+    View for dealership details using st.
+    """
+    if request.method == "GET":
+        dealership = get_dealer_by_state_from_cf(dealer_st)
+
+        return HttpResponse(dealership)
 
 
 def get_dealership_reviews(request, dealer_id):

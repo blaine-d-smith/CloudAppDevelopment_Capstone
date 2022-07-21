@@ -5,7 +5,7 @@ from requests.auth import HTTPBasicAuth
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 \
-    import Features, SentimentOptions, EntitiesOptions, KeywordsOptions
+    import Features, SentimentOptions, KeywordsOptions
 from ibmcloudant.cloudant_v1 import CloudantV1
 from cloudant.error import CloudantException
 from .cloud_creds import cloud_creds
@@ -16,7 +16,8 @@ iam_api_key = cloud_creds["IAM_API_KEY"]
 couch_username = cloud_creds["COUCH_USERNAME"]
 watson_api_key = cloud_creds["WATSON_API_KEY"]
 watson_url = cloud_creds["WATSON_URL"]
-dealer_api_url = cloud_creds["DEALER_API_URL"]
+dealerid_api_url = cloud_creds["DEALERID_API_URL"]
+dealerst_api_url = cloud_creds["DEALERST_API_URL"]
 
 
 def get_request(url, **kwargs):
@@ -68,7 +69,31 @@ def get_dealer_from_cf(dealer_id):
     results = []
     dealer_id_dict = {"dealer_id": dealer_id}
     payload = json.dumps(dealer_id_dict)
-    url = dealer_api_url
+    url = dealerid_api_url
+    response = requests.request("GET", url, headers={'Content-Type': 'application/json'}, data=payload)
+    json_result = json.loads(response.text)
+
+    if json_result:
+        dealers = json_result["result"]["docs"]
+
+        for dealer in dealers:
+            dealer_obj = CarDealer(address=dealer["address"], city=dealer["city"], full_name=dealer["full_name"],
+                                   id=dealer["id"], lat=dealer["lat"], long=dealer["long"],
+                                   short_name=dealer["short_name"],
+                                   st=dealer["st"], state=dealer["state"], zip=dealer["zip"])
+            results.append(dealer_obj)
+    # print(results)
+    return results
+
+
+def get_dealer_by_state_from_cf(dealer_st):
+    """
+    Retrieves a dealer by dealer_st (state abbreviation).
+    """
+    results = []
+    dealer_st_dict = {"dealer_st": dealer_st}
+    payload = json.dumps(dealer_st_dict)
+    url = dealerst_api_url
     response = requests.request("GET", url, headers={'Content-Type': 'application/json'}, data=payload)
     json_result = json.loads(response.text)
 
