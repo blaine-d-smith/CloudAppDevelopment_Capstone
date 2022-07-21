@@ -146,7 +146,7 @@ def get_dealership_reviews_from_db(dealer_id):
             review_obj = DealerReview(dealership=review["dealership"], name=review["name"], review=review["review"],
                                       purchase=review["purchase"], purchase_date=review["purchase_date"],
                                       car_make=review["car_make"], car_model=review["car_model"],
-                                      car_year=review["car_year"], sentiment=review["sentiment"])
+                                      car_year=review["car_year"], sentiment="")
             review_obj.sentiment = analyze_review_sentiments(review_obj.review)
             results.append(review_obj)
 

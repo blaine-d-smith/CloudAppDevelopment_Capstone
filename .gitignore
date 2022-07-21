@@ -1,7 +1,33 @@
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.idea
+.cache
+.bin
 .vscode
+vscode/
+
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqliteclea3
+db.sqlite3-journal
+staticfiles/admin/css
+staticfiles/rest_framework/css
+staticfiles/rest_framework/docs/css
+static/admin/css
+static/rest_framework/css
+static/rest_framework/docs/css
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
 *.py[cod]
 *$py.class
 
@@ -55,12 +81,6 @@ coverage.xml
 
 # Translations
 *.mo
-*.pot
-
-# Django stuff:
-*.log
-local_settings.py
-
 
 # Flask stuff:
 instance/
@@ -102,15 +122,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -129,7 +140,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
 # Ignore PyCharm files
 .idea/
 server/__pycache__/
@@ -137,11 +147,8 @@ server/base/__pycache__/
 server/base/templates/base/__pycache__/
 server/base/migrations/
 .DS_Store
-*.pyc
-server/base/migrations/
 
 /server/static/
 /server/base/cloud-creds.json
 /server/base/cloud_creds.py
 /server/base/watson.py
-/server/base/cloud_creds.py
