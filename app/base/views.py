@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .models import DealerReview, CarDealer, CarModel

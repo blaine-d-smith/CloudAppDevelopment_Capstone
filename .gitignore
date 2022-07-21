@@ -132,15 +132,15 @@ dmypy.json
 
 # Ignore PyCharm files
 .idea/
-server/__pycache__/
-server/base/__pycache__/
-server/base/templates/base/__pycache__/
-server/base/migrations/
+app/__pycache__/
+app/base/__pycache__/
+app/base/templates/base/__pycache__/
+app/base/migrations/
 .DS_Store
 *.pyc
-server/base/migrations/
+app/base/migrations/
 
-/server/static/
-/server/base/cloud-creds.json
-/server/base/cloud_creds.py
-/server/base/watson.py
+/app/static/
+/app/base/cloud-creds.json
+/app/base/cloud_creds.py
+/app/base/watson.py

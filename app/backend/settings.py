@@ -15,7 +15,7 @@ from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-TEMPLATES_DIR = os.path.join(BASE_DIR, 'server/base/templates')
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'app/base/templates')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'ao5z(o(z@cvzodm99d32jkxa5e8a1!q_4sqss5-a%n6tg$#h$+'
@@ -25,7 +25,7 @@ DEBUG = True
 
 APPEND_SLASH = True
 
-ALLOWED_HOSTS = ['bsmith.us-south.cf.appdomain.cloud', 'localhost', '127.0.0.1',]
+ALLOWED_HOSTS = ['bsmith.us-south.cf.appdomain.cloud', 'localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -129,9 +129,3 @@ MEDIA_URL = '/media/'
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
-
-# Local Settings
-# try:
-#     from .local_settings import *
-# except ImportError:
-#     pass
