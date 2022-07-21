@@ -46,7 +46,7 @@
                 }
             }
         },
-        // Return the current time while accounting for the app timezone.
+        // Return the current time while accounting for the server timezone.
         now: function() {
             const body = document.getElementsByTagName('body')[0];
             const serverOffset = body.dataset.adminUtcOffset;
@@ -77,16 +77,16 @@
             let message;
             if (timezoneOffset > 0) {
                 message = ngettext(
-                    'Note: You are %s hour ahead of app time.',
-                    'Note: You are %s hours ahead of app time.',
+                    'Note: You are %s hour ahead of server time.',
+                    'Note: You are %s hours ahead of server time.',
                     timezoneOffset
                 );
             }
             else {
                 timezoneOffset *= -1;
                 message = ngettext(
-                    'Note: You are %s hour behind app time.',
-                    'Note: You are %s hours behind app time.',
+                    'Note: You are %s hour behind server time.',
+                    'Note: You are %s hours behind server time.',
                     timezoneOffset
                 );
             }

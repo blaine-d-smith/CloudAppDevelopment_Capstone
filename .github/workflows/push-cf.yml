@@ -13,7 +13,7 @@ env:
 
 defaults:
   run:
-    working-directory: app
+    working-directory: server
 
 jobs:
   setup-build-publish-deploy:

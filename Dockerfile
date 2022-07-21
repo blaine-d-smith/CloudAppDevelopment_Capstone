@@ -13,7 +13,7 @@ COPY ./requirements.txt /requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r /requirements.txt
 
-COPY ./app /app
+COPY ./server /app
 
 EXPOSE 8000
 

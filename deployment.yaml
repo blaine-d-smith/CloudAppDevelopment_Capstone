@@ -20,7 +20,7 @@ spec:
         run: dealership
     spec:
       containers:
-      - image: us.icr.io/cloudappdev-namespace/dealership:v1
+      - image: us.icr.io/cloudappdev-namespace/dealership:1
         imagePullPolicy: Always
         name: dealership
         ports:
